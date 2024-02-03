@@ -26,6 +26,7 @@ email-validator
 flask-serialize
 Flask-DB
 Flask-JWT-Extended
+Flask-Migrate
 email-validator
 flask_cors
 openpyxl
