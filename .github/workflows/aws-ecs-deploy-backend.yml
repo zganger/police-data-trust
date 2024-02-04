@@ -80,6 +80,22 @@ jobs:
         tags: latest,${{ needs.setup_env.outputs.IMAGE_TAG }}
         dockerfile: ${{ env.DOCKERFILE }}
         path: ${{ env.DOCKER_PATH }}
+  migrate:
+    name: Migrate Database
+    runs-on: ubuntu-latest
+    needs: [setup_env, build]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Run Database Migrations
+        run: |
+          docker run --env-file .env ${steps.login-ecr.outputs.registry}/${needs.setup_env.outputs.AWS_APPENV}:${needs.setup_env.outputs.IMAGE_TAG} flask db upgrade
   deploy:
     name: Deploy to AWS ECS
     runs-on: ubuntu-latest
