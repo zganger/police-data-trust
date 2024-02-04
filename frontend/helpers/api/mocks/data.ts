@@ -2,7 +2,7 @@ import { Incident, User } from ".."
 
 export type TestUser = User & { password: string }
 
-/** Matches alembic/dev_seeds.py */
+/** Matches alembic_local/dev_seeds.py */
 export const EXISTING_TEST_USER: TestUser = {
   active: true,
   emailConfirmedAt: null,
@@ -14,7 +14,7 @@ export const EXISTING_TEST_USER: TestUser = {
   role: "Public"
 }
 
-/** Matches alembic/dev_seeds.py */
+/** Matches alembic_local/dev_seeds.py */
 export const EXISTING_TEST_INCIDENTS: Incident[] = (
   [
     [1, "10-01-2019Z", [-87.6974962, 41.6928005]],

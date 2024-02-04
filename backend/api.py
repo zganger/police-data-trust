@@ -4,6 +4,7 @@ import click
 from flask import Flask
 from flask_mail import Mail
 from flask_cors import CORS
+from flask_migrate import Migrate
 from backend.config import get_config_from_env
 from backend.database import db
 from backend.database import db_cli
@@ -40,6 +41,7 @@ def register_extensions(app: Flask):
     user_manager.init_app(app)
     jwt.init_app(app)
     Mail(app)
+    Migrate(app, db)
     CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
@@ -60,7 +62,7 @@ def register_commands(app: Flask):
     @dev_only
     def seed(ctx: click.Context):
         """Seed the database."""
-        from alembic.dev_seeds import create_seeds
+        from alembic_local.dev_seeds import create_seeds
 
         create_seeds()
 
